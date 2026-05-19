@@ -1,46 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Statue de l'Amazone — AR</title>
 
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: #0a0a0a;
+      background: linear-gradient(160deg, #0a0a0a 0%, #1a1200 100%);
       font-family: 'Segoe UI', sans-serif;
       color: white;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* ===== ÉCRAN D'ACCUEIL (affiché en premier) ===== */
-    #splash {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(160deg, #0a0a0a 0%, #1a1200 100%);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 100;
-      cursor: pointer;
-      transition: opacity 0.5s ease;
     }
 
-    /* Cercle décoratif autour de l'icône */
-    .splash-ring {
-      width: 120px;
-      height: 120px;
+    .ring {
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       border: 2px solid #e0c97f;
       display: flex;
@@ -50,18 +31,15 @@
       animation: pulse 2s infinite;
     }
 
-    .splash-ring span {
-      font-size: 3rem;
-    }
+    .ring span { font-size: 3.5rem; }
 
-    /* Animation de pulsation */
     @keyframes pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(224, 201, 127, 0.4); }
-      70%  { box-shadow: 0 0 0 20px rgba(224, 201, 127, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(224, 201, 127, 0); }
+      0%   { box-shadow: 0 0 0 0 rgba(224,201,127,0.4); }
+      70%  { box-shadow: 0 0 0 20px rgba(224,201,127,0); }
+      100% { box-shadow: 0 0 0 0 rgba(224,201,127,0); }
     }
 
-    .splash-titre {
+    h1 {
       font-size: 1.4rem;
       font-weight: 700;
       letter-spacing: 3px;
@@ -71,117 +49,144 @@
       text-align: center;
     }
 
-    .splash-sous-titre {
+    .sous {
       font-size: 0.85rem;
       color: #888;
       letter-spacing: 1px;
       margin-bottom: 48px;
     }
 
-    /* Le bouton tap */
-    .splash-cta {
-      background: transparent;
-      border: 1px solid #e0c97f;
-      color: #e0c97f;
-      padding: 14px 36px;
+    .btn-ar {
+      background: #e0c97f;
+      color: #0a0a0a;
+      border: none;
+      padding: 16px 40px;
       border-radius: 50px;
-      font-size: 0.95rem;
+      font-size: 1rem;
+      font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
       cursor: pointer;
-      animation: pulse 2s infinite;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgba(224,201,127,0.35);
     }
 
-    .splash-note {
-      position: absolute;
-      bottom: 32px;
+    .note {
+      margin-top: 24px;
       font-size: 0.72rem;
       color: #444;
       text-align: center;
       padding: 0 32px;
-      line-height: 1.6;
+      line-height: 1.8;
     }
 
-    /* Classe pour faire disparaître le splash */
-    #splash.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* ===== MODEL VIEWER ===== */
+    /* Fallback model-viewer si AR pas dispo */
     model-viewer {
       width: 100vw;
-      height: 100vh;
-      background-color: #0a0a0a;
-      --poster-color: #0a0a0a;
-    }
-
-    /* Bouton AR caché — on le déclenche via JS */
-    #ar-btn {
+      height: 60vh;
       display: none;
     }
+
+    #fallback {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
   </style>
+
+  <script type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
+  </script>
 </head>
 
 <body>
 
-  <!-- ÉCRAN D'ACCUEIL : l'utilisateur tape ici pour lancer l'AR -->
-  <div id="splash">
-    <div class="splash-ring">
-      <span>🗿</span>
-    </div>
-    <p class="splash-titre">Statue de l'Amazone</p>
-    <p class="splash-sous-titre">Bénin · Patrimoine Culturel</p>
-    <button class="splash-cta">Toucher pour découvrir</button>
-    <p class="splash-note">
-      Cette expérience va activer votre caméra<br>pour afficher la statue en réalité augmentée.
+  <!-- ÉCRAN PRINCIPAL -->
+  <div id="main">
+    <div class="ring"><span>🗿</span></div>
+    <h1>Statue de l'Amazone</h1>
+    <p class="sous">Bénin · Patrimoine Culturel</p>
+    <a id="btn-ar" class="btn-ar" href="#">
+      🌍 Voir en réalité augmentée
+    </a>
+    <p class="note">
+      Appuyez pour ouvrir l'expérience<br>
+      en réalité augmentée
     </p>
   </div>
 
-  <!-- LE MODÈLE 3D -->
-  <model-viewer
-    id="statue"
-    src="Meshy_AI__lowapple_texture.glb"
-    alt="Statue de l'Amazone du Bénin"
-    ar
-    ar-modes="webxr scene-viewer quick-look"
-    camera-controls
-    auto-rotate
-    auto-rotate-delay="0"
-    rotation-per-second="30deg"
-    shadow-intensity="1"
-    exposure="1.2"
-  >
-    <button id="ar-btn" slot="ar-button">AR</button>
-  </model-viewer>
+  <!-- FALLBACK : si l'appareil ne supporte pas l'AR natif -->
+  <div id="fallback">
+    <model-viewer
+      id="viewer"
+      src="Meshy_AI__lowapple_texture.glb"
+      alt="Statue de l'Amazone"
+      camera-controls
+      auto-rotate
+      shadow-intensity="1"
+      exposure="1.2"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+    >
+      <button class="btn-ar" slot="ar-button">
+        🌍 Voir en AR
+      </button>
+    </model-viewer>
+    <p class="note">
+      Tourne avec le doigt · Pinch pour zoomer
+    </p>
+  </div>
 
   <script>
-    const splash = document.getElementById('splash');
-    const statue = document.getElementById('statue');
-    const arBtn  = document.getElementById('ar-btn');
+    // URL publique de ton modèle .glb sur GitHub Pages
+    // ⚠️ REMPLACE "TON-USERNAME" par ton vrai nom d'utilisateur GitHub
+    const GLB_URL = "https://femy25.github.io/amazone-ar/Meshy_AI__lowapple_texture.glb";
 
-    // Quand l'utilisateur tape sur l'écran d'accueil
-    splash.addEventListener('click', () => {
+    // Titre affiché dans Scene Viewer Android
+    const TITRE  = "Statue de l'Amazone";
 
-      // 1. On fait disparaître l'écran d'accueil
-      splash.classList.add('hidden');
+    // URL Scene Viewer Android : ouvre l'AR natif directement
+    const sceneViewerUrl =
+      `intent://arvr.google.com/scene-viewer/1.0` +
+      `?file=${encodeURIComponent(GLB_URL)}` +
+      `&mode=ar_only` +
+      `&title=${encodeURIComponent(TITRE)}` +
+      `#Intent;scheme=https;` +
+      `package=com.google.ar.core;` +
+      `action=android.intent.action.VIEW;` +
+      `S.browser_fallback_url=${encodeURIComponent(GLB_URL)};` +
+      `end;`;
 
-      // 2. Après 500ms (le temps de la transition), on supprime le splash
-      //    et on déclenche automatiquement l'AR
-      setTimeout(() => {
-        splash.remove();
+    // Détecter si on est sur Android
+    const isAndroid = /android/i.test(navigator.userAgent);
 
-        // On attend que Model Viewer soit prêt, puis on clique sur le bouton AR
-        // "activateAR()" est la méthode officielle de Model Viewer
-        if (statue.canActivateAR) {
-          statue.activateAR();
-        } else {
-          // Si l'AR n'est pas disponible sur cet appareil,
-          // on reste en mode 3D (rotation au doigt)
-          console.log('AR non disponible, mode 3D activé');
-        }
-      }, 500);
-    });
+    // Détecter si on est sur iOS
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    const btn = document.getElementById('btn-ar');
+
+    if (isAndroid) {
+      // Android : on pointe directement vers Scene Viewer
+      // Dès le tap → demande de permission → AR natif
+      btn.href = sceneViewerUrl;
+
+    } else if (isIOS) {
+      // iOS : Quick Look (AR natif Apple)
+      // Nécessite un fichier .usdz — on reste sur Model Viewer pour iOS
+      showFallback();
+
+    } else {
+      // PC ou appareil non compatible : mode 3D avec Model Viewer
+      showFallback();
+    }
+
+    function showFallback() {
+      document.getElementById('main').style.display = 'none';
+      const fb = document.getElementById('fallback');
+      fb.style.display = 'flex';
+      document.getElementById('viewer').style.display = 'block';
+    }
   </script>
 
 </body>
