@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Statue de l'Amazone — AR</title>
+
+  <!-- Model Viewer : la librairie Google qui fait tout le travail -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+  <style>
+    /* Supprime les marges par défaut du navigateur */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* La page prend tout l'écran */
+    body {
+      background-color: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+
+    /* Titre en haut */
+    .titre {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: #e0c97f;
+    }
+
+    /* Sous-titre */
+    .sous-titre {
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+
+    /* Le composant Model Viewer lui-même */
+    model-viewer {
+      width: 100vw;
+      height: 70vh;
+      background-color: transparent;
+      --poster-color: transparent;
+    }
+
+    /* Le bouton AR en bas */
+    .ar-button {
+      background-color: #e0c97f;
+      color: #0a0a0a;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 16px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 20px rgba(224, 201, 127, 0.4);
+    }
+
+    /* Message affiché si le téléphone ne supporte pas l'AR */
+    .no-ar {
+      display: none;
+      color: #888;
+      font-size: 0.8rem;
+      margin-top: 12px;
+      text-align: center;
+      padding: 0 24px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <p class="titre">Statue de l'Amazone</p>
+  <p class="sous-titre">Bénin · Patrimoine Culturel</p>
+
+  <!--
+    model-viewer : le composant principal
+    
+    src = ton fichier 3D
+    ar = active le mode AR
+    ar-modes = comment l'AR fonctionne sur Android et iOS
+    camera-controls = permet de tourner avec le doigt
+    auto-rotate = la statue tourne automatiquement au chargement
+    shadow-intensity = ajoute une ombre sous la statue
+    exposure = luminosité du modèle
+  -->
+  <model-viewer
+    id="statue"
+    src="Meshy_AI__lowapple_texture.glb"
+    alt="Statue de l'Amazone du Bénin"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    camera-controls
+    auto-rotate
+    auto-rotate-delay="0"
+    rotation-per-second="30deg"
+    shadow-intensity="1"
+    exposure="1.2"
+    ar-button-slot="none"
+  >
+    <!-- Bouton AR personnalisé -->
+    <button class="ar-button" slot="ar-button">
+      🌍 Voir en réalité augmentée
+    </button>
+
+    <!-- Message si AR non supporté -->
+    <p class="no-ar" slot="ar-failure">
+      Ton appareil ne supporte pas l'AR. Tu peux quand même tourner la statue avec le doigt.
+    </p>
+
+  </model-viewer>
+
+</body>
+</html>
