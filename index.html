@@ -118,6 +118,7 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
+      text-decoration: none;
     }
 
     .ar-button:active {
@@ -164,6 +165,7 @@
   <model-viewer
     id="statue"
     src="Meshy_AI__0519152234_texture.glb"
+    ios-src="Meshy_AI__0519152234_texture.usdz"
     alt="Statue de l'Amazone du Bénin"
     ar
     ar-modes="webxr scene-viewer quick-look"
@@ -179,7 +181,7 @@
 
   <div class="bottom">
     <div class="divider"></div>
-    <button class="ar-button" onclick="document.getElementById('statue').activateAR()">
+    <a id="ar-button" class="ar-button" href="#">
       <div class="btn-icon">
         <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="5" cy="5" r="4" stroke="white" stroke-width="1.2"/>
@@ -187,9 +189,30 @@
         </svg>
       </div>
       Voir en réalité augmentée
-    </button>
+    </a>
     <p class="hint">Appuyez pour activer la caméra</p>
   </div>
+
+  <script>
+    const statue = document.getElementById('statue');
+    const btn    = document.getElementById('ar-button');
+    const isIOS  = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    if (isIOS) {
+      // iPhone : ouvre le .usdz directement via Quick Look AR natif de Safari
+      btn.setAttribute(
+        'href',
+        'Meshy_AI__0519152234_texture.usdz#allowsContentScaling=0'
+      );
+      btn.setAttribute('rel', 'ar');
+    } else {
+      // Android : déclenche l'AR via Model Viewer
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        statue.activateAR();
+      });
+    }
+  </script>
 
 </body>
 </html>
