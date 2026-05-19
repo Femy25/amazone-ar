@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Statue de l'Amazone — AR</title>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      background: #0a0a0a;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
+      background-color: #0a0a0a;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      color: white;
     }
 
     /* BARRE DU HAUT */
     .topbar {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 24px 0;
-      flex-shrink: 0;
+      padding: 24px 28px 0;
     }
 
     .topbar-label {
@@ -44,80 +47,78 @@
       opacity: 0.1;
     }
 
-    /* ZONE DU MODÈLE 3D */
-    model-viewer {
-      width: 100%;
-      flex: 1;
-      background: transparent;
-      --poster-color: transparent;
-      min-height: 0;
-    }
-
-    /* ZONE BAS DE PAGE */
-    .bottom {
-      flex-shrink: 0;
-      padding: 0 24px 40px;
-    }
-
-    .meta-label {
-      font-size: 10px;
+    /* TITRES */
+    .titre {
+      font-size: 11px;
+      font-weight: 400;
       letter-spacing: 3px;
-      color: #444;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      color: #444;
+      margin-top: 28px;
+      margin-bottom: 6px;
     }
 
-    .meta-title {
-      font-size: 28px;
+    .nom {
+      font-size: 32px;
       font-weight: 300;
-      line-height: 1.15;
       letter-spacing: -0.5px;
       color: #fff;
-      margin-bottom: 4px;
+      text-align: center;
+      line-height: 1.15;
     }
 
-    .meta-title span {
+    .nom span {
       font-weight: 500;
     }
 
-    .meta-sub {
+    .sous-titre {
       font-size: 10px;
-      letter-spacing: 2px;
-      color: #444;
+      color: #333;
+      margin-top: 6px;
+      margin-bottom: 0;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
-      margin-bottom: 28px;
+    }
+
+    /* MODEL VIEWER */
+    model-viewer {
+      width: 100vw;
+      height: 58vh;
+      background-color: transparent;
+      --poster-color: transparent;
     }
 
     /* SÉPARATEUR */
     .divider {
-      width: 100%;
+      width: calc(100% - 48px);
       height: 0.5px;
       background: #1f1f1f;
       margin-bottom: 24px;
     }
 
     /* BOUTON AR */
-    .btn-ar {
-      width: 100%;
-      padding: 18px;
+    .ar-button {
       background: #fff;
       color: #0a0a0a;
       border: none;
-      border-radius: 14px;
+      padding: 18px 0;
+      width: calc(100% - 48px);
       font-family: 'Inter', sans-serif;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
+      border-radius: 14px;
+      cursor: pointer;
       letter-spacing: 2px;
       text-transform: uppercase;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      transition: opacity 0.2s;
     }
 
-    .btn-ar:active { opacity: 0.85; }
+    .ar-button:active {
+      opacity: 0.85;
+    }
 
     .btn-icon {
       width: 20px;
@@ -136,46 +137,40 @@
     }
 
     .hint {
-      text-align: center;
       font-size: 10px;
       color: #333;
       letter-spacing: 1px;
       margin-top: 14px;
+      margin-bottom: 32px;
     }
 
-    /* TAG 360 flottant */
-    .tag-360 {
-      position: fixed;
-      top: 52px;
-      right: 24px;
-      font-size: 9px;
-      letter-spacing: 2px;
-      color: #333;
-      text-transform: uppercase;
-      writing-mode: vertical-rl;
-    }
-
-    /* Message si AR non dispo */
-    .no-ar-msg {
-      display: none;
-      text-align: center;
-      font-size: 11px;
+    /* Message si AR non supporté */
+    .no-ar {
       color: #444;
+      font-size: 10px;
       letter-spacing: 1px;
       margin-top: 12px;
+      text-align: center;
+      padding: 0 24px;
       line-height: 1.8;
     }
   </style>
 </head>
+
 <body>
 
+  <!-- BARRE DU HAUT -->
   <div class="topbar">
     <span class="topbar-label">Patrimoine · AR</span>
     <div class="topbar-dot"></div>
   </div>
 
-  <span class="tag-360">360°</span>
+  <!-- TITRES -->
+  <p class="titre">Bénin · Patrimoine culturel</p>
+  <h1 class="nom">Statue de<br><span>l'Amazone</span></h1>
+  <p class="sous-titre">Expérience AR</p>
 
+  <!-- MODEL VIEWER -->
   <model-viewer
     id="statue"
     src="Meshy_AI__lowapple_texture.glb"
@@ -190,15 +185,8 @@
     exposure="1.3"
     ar-button-slot="none"
   >
-    <button id="ar-btn" slot="ar-button" style="display:none">AR</button>
-  </model-viewer>
-
-  <div class="bottom">
-    <p class="meta-label">Bénin · Patrimoine culturel</p>
-    <h1 class="meta-title">Statue de<br><span>l'Amazone</span></h1>
-    <p class="meta-sub">Expérience réalité augmentée</p>
-    <div class="divider"></div>
-    <button class="btn-ar" onclick="lancerAR()">
+    <!-- Bouton AR personnalisé -->
+    <button class="ar-button" slot="ar-button">
       <div class="btn-icon">
         <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="5" cy="5" r="4" stroke="white" stroke-width="1.2"/>
@@ -207,26 +195,17 @@
       </div>
       Voir en réalité augmentée
     </button>
-    <p class="hint">Appuyez pour activer la caméra</p>
-    <p class="no-ar-msg" id="no-ar">
+
+    <!-- Message si AR non supporté -->
+    <p class="no-ar" slot="ar-failure">
       Ton appareil ne supporte pas l'AR.<br>
-      Tu peux tourner la statue avec le doigt.
+      Tu peux quand même tourner la statue avec le doigt.
     </p>
-  </div>
 
-  <script>
-    const statue = document.getElementById('statue');
-    const arBtn  = document.getElementById('ar-btn');
-    const noAr   = document.getElementById('no-ar');
+  </model-viewer>
 
-    function lancerAR() {
-      if (statue.canActivateAR) {
-        statue.activateAR();
-      } else {
-        noAr.style.display = 'block';
-      }
-    }
-  </script>
+  <div class="divider"></div>
+  <p class="hint">Appuyez sur le bouton pour activer la caméra</p>
 
 </body>
 </html>
