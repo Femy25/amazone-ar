@@ -78,7 +78,6 @@
       font-weight: 500;
     }
 
-    /* Le modèle prend tout l'espace disponible */
     model-viewer {
       width: 100%;
       flex: 1;
@@ -162,10 +161,9 @@
     <h1 class="nom">Statue de<br><span>l'Amazone</span></h1>
   </div>
 
-  <!-- ar-button-slot="none" supprime le bouton interne de Model Viewer -->
   <model-viewer
     id="statue"
-    src="Meshy_AI__lowapple_texture.glb"
+    src="Meshy_AI__0519152234_texture.glb"
     alt="Statue de l'Amazone du Bénin"
     ar
     ar-modes="webxr scene-viewer quick-look"
@@ -179,7 +177,6 @@
   >
   </model-viewer>
 
-  <!-- Seul bouton AR, en bas, déclenche activateAR() via JS -->
   <div class="bottom">
     <div class="divider"></div>
     <button class="ar-button" onclick="document.getElementById('statue').activateAR()">
