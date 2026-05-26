@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monument Place des Martyrs — AR</title>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      background-color: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      font-family: 'Inter', sans-serif;
+      color: white;
+    }
+    .topbar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 28px 0;
+      flex-shrink: 0;
+    }
+    .topbar-label { font-size: 10px; letter-spacing: 3px; color: #444; text-transform: uppercase; }
+    .topbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; opacity: 0.1; }
+    .header { flex-shrink: 0; text-align: center; padding: 20px 24px 16px; }
+    .titre { font-size: 10px; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .nom { font-size: 30px; font-weight: 300; letter-spacing: -0.5px; color: #fff; line-height: 1.15; }
+    .nom span { font-weight: 500; }
+    model-viewer { width: 100%; flex: 1; min-height: 0; background-color: transparent; --poster-color: transparent; }
+    .bottom { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding: 16px 24px 40px; }
+    .divider { width: 100%; height: 0.5px; background: #1f1f1f; margin-bottom: 20px; }
+    .ar-button {
+      background: #fff; color: #0a0a0a; border: none; padding: 18px 0; width: 100%;
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; border-radius: 14px;
+      cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
+      display: flex; align-items: center; justify-content: center; gap: 12px; text-decoration: none;
+    }
+    .ar-button:active { opacity: 0.85; }
+    .btn-icon { width: 20px; height: 20px; border-radius: 50%; background: #0a0a0a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .btn-icon svg { width: 10px; height: 10px; }
+    .hint { font-size: 10px; color: #333; letter-spacing: 1px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <span class="topbar-label">Patrimoine · AR</span>
+    <div class="topbar-dot"></div>
+  </div>
+  <div class="header">
+    <p class="titre">Cotonou · Bénin</p>
+    <h1 class="nom">Monument de la<br><span>Place des Martyrs</span></h1>
+  </div>
+  <model-viewer
+    id="monument"
+    src="Meshy_AI__Place_texture.glb"
+    ios-src="Meshy_AI__Place_texture.usdz"
+    alt="Monument de la Place des Martyrs, Cotonou, Bénin"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    camera-controls
+    auto-rotate
+    auto-rotate-delay="0"
+    rotation-per-second="25deg"
+    shadow-intensity="1"
+    exposure="1.3"
+    ar-button-slot="none"
+  >
+  </model-viewer>
+  <div class="bottom">
+    <div class="divider"></div>
+    <a id="ar-button" class="ar-button" href="#">
+      <div class="btn-icon">
+        <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5" cy="5" r="4" stroke="white" stroke-width="1.2"/>
+          <circle cx="5" cy="5" r="1.8" fill="white"/>
+        </svg>
+      </div>
+      Voir en réalité augmentée
+    </a>
+    <p class="hint">Appuyez pour activer la caméra</p>
+  </div>
+  <script>
+    const monument = document.getElementById('monument');
+    const btn = document.getElementById('ar-button');
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (isIOS) {
+      btn.setAttribute('href', 'Meshy_AI__Place_texture.usdz#allowsContentScaling=0');
+      btn.setAttribute('rel', 'ar');
+    } else {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        monument.activateAR();
+      });
+    }
+  </script>
+</body>
+</html>
